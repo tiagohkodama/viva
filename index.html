@@ -11,6 +11,7 @@
       background: #f7f7fb;
       font-family: "Segoe UI", Roboto, Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
@@ -42,6 +43,22 @@
       white-space: pre-line;
     }
 
+    /* 🔍 QR fora do card */
+    .qr-wrapper {
+      margin-top: 10px;
+      padding: 6px 6px 2px;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ffffff;
+      border: 1px solid #dfdfdf;
+    }
+
+    .qr-wrapper img {
+      width: 95px;
+      height: auto;
+      display: block;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
@@ -53,6 +70,11 @@
   <div class="card">
     <h2 class="title">💌 Mensagem Especial</h2>
     <p id="feedbackText" class="text"></p>
+  </div>
+
+  <!-- ⭐ QR code fora do card -->
+  <div class="qr-wrapper">
+    <img src="qr-code.png" alt="QR para curiosos">
   </div>
 
   <script>
@@ -97,7 +119,6 @@
         return;
       }
 
-      // mensagem especial encontrada
       titleEl.textContent = '💌 Mensagem Especial';
       feedbackEl.textContent = feedback;
     });
