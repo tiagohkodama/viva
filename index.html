@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aos Educadores do Keita</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f7f7fb;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .card {
+      max-width: 520px;
+      padding: 26px 30px;
+      border-radius: 16px;
+      background: #ffffff;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+      border: 1px solid #ececec;
+      text-align: left;
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 14px;
+      color: #d97706;
+      letter-spacing: 0.3px;
+    }
+
+    .text {
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2 class="title">💌 Mensagem Especial</h2>
+    <p id="feedbackText" class="text"></p>
+  </div>
+
+  <script>
+    const FEEDBACKS = {
+      isa: `Querida Isa, agradecemos de coração por todo o carinho e dedicação que você teve com o Keita. Ele tem se divertido muito em sua companhia e isso nos deixa muito felizes. Desejamos a você um Natal repleto de alegria e um Ano Novo cheio de realizações! Muito obrigado por tudo!`,
+      acacio: `Querido Acácio, agradecemos de coração por sua dedicação e carinho com as crianças do nido. É maravilhoso ver como você se adaptou tão bem à turma e se tornou o 'narrador' do 'rádio viva'. Que suas festas natalinas sejam repletas de alegria e que o ano novo traga ainda mais conquistas e felicidade!`,
+      eli: `Querida Eli, queremos expressar nossa profunda gratidão por todo o carinho e dedicação que você oferece às crianças. Sua disposição e habilidade em se comunicar com elas têm sido fundamentais para a adaptação do Keita à escola e ao método montessoriano. Desejamos a você um Natal repleto de alegria e um Ano Novo cheio de realizações. Muito obrigado por tudo!`,
+      giovanna: `Querida Giovanna, queremos expressar nossa sincera gratidão por todo o carinho, atenção e dedicação que você tem demonstrado ao longo do tempo em que Keita esteve sob seus cuidados. Sua presença é muito especial para ele, e sabemos o quanto você se importa. Desejamos a você um Natal repleto de alegria e um Ano Novo cheio de realizações!`,
+      gabriel: `Querido Gabriel, agradecemos de coração por todo o carinho e dedicação que você teve com o Keita ao longo do ano. Sua calma e serenidade trouxeram paz e confiança para nossa família, e ficamos felizes em compartilhar momentos de yoga juntos. Desejamos a você um Natal cheio de alegria e um Ano Novo repleto de realizações!`,
+      yasmin: `Querida Yasmin, agradecemos de coração por todo o carinho e dedicação que você teve com o Keita durante as tardes. Sabemos que foram muitas fraldas trocadas, e sua paciência e cuidado fizeram toda a diferença. Desejamos a você um Natal repleto de alegrias e um Ano Novo cheio de realizações!`,
+      maria: `Querida Maria, agradecemos de coração por todo o carinho e dedicação que você sempre teve com o Keita. Ele sente sua falta, mas ficamos felizes em ver seu crescimento na nova turma. Que suas festas natalinas sejam repletas de alegria e que o ano novo traga ainda mais conquistas e vitórias para você!`,
+      malu: `Querida Malu, agradecemos de coração pelo carinho e cuidado que você tem dedicado ao Keita nos últimos meses. Sua ajuda durante as refeições fez toda a diferença para ele. Desejamos a você um Natal cheio de alegria e um Ano Novo repleto de realizações!`,
+      vera: `Querida Vera, somos muito gratos por todo o carinho e dedicação que você demonstra ao abrir e fechar as portas da escola. Sua presença faz toda a diferença na vida do Keita, que se sente à vontade e amado ao seu lado. Desejamos a você um Natal repleto de alegria e um Ano Novo cheio de realizações!`,
+      ana: `Querida Ana, agradecemos de coração por todo o carinho e dedicação que você oferece ao Keita. Que as festas natalinas e o Ano Novo sejam repletos de alegria e amor para você e sua família. Estamos muito gratos por ter você em nossa jornada!`,
+      flavia: `Querida Flávia, queremos expressar nossa gratidão por todo o carinho e dedicação que você demonstra na escola. Sua presença atenta e profissional faz toda a diferença na vida das crianças. Desejamos a você um Natal repleto de alegrias e um Ano Novo cheio de realizações!`,
+      rafaela: `Querida Rafaela, agradecemos de coração por todo o carinho e dedicação que você trouxe para nossas práticas de yoga. Foi maravilhoso compartilhar momentos tão especiais com você e ver o Keita se divertindo na posição do esquilo. Desejamos a você um Natal repleto de alegria e um Ano Novo cheio de realizações! Com carinho, a família do Keita.`,
+      luciana: `Agradecemos imensamente, Luciana, por toda a sua dedicação e carinho com o Keita. Sua experiência em Montessori e a atenção que você nos deu foram fundamentais para o nosso crescimento e convivência. Desejamos a você e sua família um Natal maravilhoso e um Ano Novo repleto de alegrias!`,
+      breno: `Querido Breno, agradecemos de coração pelo carinho que você sempre demonstra com o Keita. Sua simpatia e sorriso iluminam os dias dele, e mesmo nos momentos em que ele não responde, sentimos a sua energia positiva. Desejamos a você um Natal cheio de alegria e um Ano Novo repleto de realizações!`
+    };
+
+    function getUsernameFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return (params.get('username') || '').trim().toLowerCase();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const username = getUsernameFromUrl();
+      const feedbackEl = document.getElementById('feedbackText');
+      const titleEl = document.querySelector('.title');
+
+      if (!username) {
+        titleEl.textContent = '⚠️ Ops';
+        feedbackEl.textContent = 'Nenhum username informado.';
+        return;
+      }
+
+      const feedback = FEEDBACKS[username];
+
+      if (!feedback) {
+        titleEl.textContent = '⚠️ Ops';
+        feedbackEl.textContent = 'Feedback não encontrado para @' + username;
+        return;
+      }
+
+      // mensagem especial encontrada
+      titleEl.textContent = '💌 Mensagem Especial';
+      feedbackEl.textContent = feedback;
+    });
+  </script>
+</body>
+</html>
